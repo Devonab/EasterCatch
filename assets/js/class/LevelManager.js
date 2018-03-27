@@ -1,6 +1,4 @@
-let score = 0;
-
-class ScoreManager {
+class LevelManager {
 
     constructor()
     {
@@ -11,11 +9,12 @@ class ScoreManager {
             fontWeight: "bold",
             fill: "white",
         });
-        this.score = score;
 
-        this.text = new Text("Score : " +score, style);
+        this.level = 1;
+
+        this.text = new Text("Level : " +level, style);
         this.text.x = 15;
-        this.text.y = 45;
+        this.text.y = 15;
 
         stage.addChild(this.text);
     }

@@ -35,6 +35,7 @@ let renderer = app.renderer,
     h = app.screen.height, 
     timer,
     scoreManager,
+    levelManager,
     player;
 
 loader
@@ -58,7 +59,8 @@ loader
 function init() {
     renderer.backgroundColor = 0xb3e0e6;
     player = new Player();
-    scoreManager = new ScoreManager(level);
+    levelManager = new LevelManager();
+    scoreManager = new ScoreManager();
     timer = new GameTimer();
     renderer.render(stage);
 
@@ -73,7 +75,7 @@ function init() {
 function loop() {
     
     player.update();
-    scoreManager.update(level);
+    levelManager.update(level);
 
     Egg.list.map((element) =>
     {
