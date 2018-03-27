@@ -32,6 +32,7 @@ class Player {
         left.release = () => {
             if (!right.isDown && this.vy === 0) {
             this.vx = 0;
+            let egg = new Egg(100, 100, 1);
             }
         };
     

@@ -11,8 +11,7 @@ let canvas = document.getElementById('game'),
     Utils = PIXI.utils,
     Sprite = PIXI.Sprite,
     count = 120,
-    newEnnemy = false,
-    ennemyManager,
+    egg,
     level = 1;
 
 
@@ -36,6 +35,7 @@ let renderer = app.renderer,
     h = app.screen.height, 
     timer,
     scoreManager,
+    levelManager,
     player;
 
 loader
@@ -59,11 +59,14 @@ loader
 function init() {
     renderer.backgroundColor = 0xb3e0e6;
     player = new Player();
-    ennemyManager = new EnnemyManager();
-    ennemyManager.ennemyWave();
-    scoreManager = new ScoreManager(level);
+    levelManager = new LevelManager();
+    scoreManager = new ScoreManager();
     timer = new GameTimer();
     renderer.render(stage);
+
+    setInterval( () => {
+        egg = new Egg(Math.floor(Math.random() * renderer.width), randomInt(-450, -100));
+    }, 3000);
 
     loop();
 
@@ -72,8 +75,13 @@ function init() {
 function loop() {
     
     player.update();
-    scoreManager.update(level);
-    ennemyManager.update();
+    levelManager.update(level);
+
+    Egg.list.map((element) =>
+    {
+        element.update();
+    });
+    
 
     if(timer.count < 0 ) {
         swal("C'est fini !", "Vous avez un score de "+ level);
