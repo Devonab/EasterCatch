@@ -6,6 +6,7 @@ let canvas = document.getElementById('game'),
     loader = PIXI.loader,
     resources = PIXI.loader.resources,
     TextureCache = PIXI.utils.TextureCache,
+    Rectangle = PIXI.Rectangle,
     Text = PIXI.Text,
     TextStyle = PIXI.TextStyle,
     Utils = PIXI.utils,
@@ -65,8 +66,8 @@ function init() {
     renderer.render(stage);
 
     setInterval( () => {
-        egg = new Egg(Math.floor(Math.random() * renderer.width), randomInt(-450, -100));
-    }, 3000);
+        egg = new Egg(randomInt(48, renderer.width - 48), randomInt(-450, -100));
+    }, 1000);
 
     loop();
 
@@ -79,12 +80,17 @@ function loop() {
 
     Egg.list.map((element) =>
     {
-        element.update();
+        element.update(level);
     });
+
+    scoreManager.update(score);
     
 
     if(timer.count < 0 ) {
-        swal("C'est fini !", "Vous avez un score de "+ level);
+        swal("C'est fini !", "Vous avez un score de "+ scoreManager.score+ " et vous avez manqué "+miss+" oeufs !", {
+            closeOnEsc: false,
+            closeOnClickOutside: false
+        });
 
     } else {
         requestAnimationFrame(loop);

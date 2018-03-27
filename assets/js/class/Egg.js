@@ -1,4 +1,11 @@
 let _list = new Array();
+let miss = 0;
+let missSound = new Howl({
+    src: ['assets/audio/miss.mp3','../assets/audio/miss.ogg'],
+    loop: false,
+    autoplay: false,
+    volume: 0.7
+});
 
 class Egg 
 {
@@ -9,6 +16,7 @@ class Egg
     constructor(x, y, level)
     {
         let randomEnnemyName = "assets/img/egg-"+randomInt(1,11)+".png";
+        
 
         this.sprite = new Sprite(resources[randomEnnemyName].texture);
         this.sprite.anchor.set(0.5);
@@ -27,10 +35,13 @@ class Egg
         this.sprite.position.y += 1;
         this.sprite.rotation += 0.1;
 
-        if (this.sprite.position.y > renderer.height * 1.1) {
+
+        if (this.sprite.position.y > renderer.height ) {
             this.sprite.destroy();
             Egg.list.splice(Egg.list.indexOf(this), 1);
-            
-        }  
+            miss++;
+            return scoreManager.update(5);;
+               
+        }
     }
 }

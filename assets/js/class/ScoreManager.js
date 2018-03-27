@@ -13,15 +13,19 @@ class ScoreManager {
         });
         this.score = score;
 
-        this.text = new Text("Score : " +score, style);
+        this.text = new Text("Score : " +this.score, style);
         this.text.x = 15;
         this.text.y = 45;
 
         stage.addChild(this.text);
     }
 
-    update()
+    update(newScore)
     {
-
+        if(newScore == 5 ) {
+            this.score = this.score-newScore;
+            this.text.text = 'Score : '+this.score;
+        }
+        
     }
 }
