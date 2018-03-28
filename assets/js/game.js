@@ -12,8 +12,15 @@ let canvas = document.getElementById('game'),
     Utils = PIXI.utils,
     Sprite = PIXI.Sprite,
     count = 120,
-    egg,
-    level = 1;
+    level = 1,
+    egg;
+
+    const music = new Howl({
+        src: ['assets/audio/the_builder.mp3', 'assets/audio/the_builder.ogg'],
+        loop: true,
+        autoplay: true,
+        volume: 0.5
+    });
 
 
 if(!PIXI.utils.isWebGLSupported()){
@@ -37,7 +44,12 @@ let renderer = app.renderer,
     timer,
     scoreManager,
     levelManager,
-    player;
+    spawningRate = 1000,
+    player,
+
+    // Variables pour gérer la difficultée
+    losingWhenFall = 10,
+    winWhenCatch = 20;
 
 loader
   .add("bunny","assets/img/bunny.png")
@@ -69,25 +81,24 @@ function init() {
         egg = new Egg(randomInt(48, renderer.width - 48), randomInt(-450, -100));
     }, 1000);
 
-    loop();
+    
+   loop();
 
 }
 
 function loop() {
-    
     player.update();
-    levelManager.update(level);
+    levelManager.update();
 
     Egg.list.map((element) =>
     {
-        element.update(level);
+        element.update();
     });
 
     scoreManager.update(score);
-    
 
     if(timer.count < 0 ) {
-        swal("C'est fini !", "Vous avez un score de "+ scoreManager.score+ " et vous avez manqué "+miss+" oeufs !", {
+        swal("C'est fini !", "Vous avez un score de "+ scoreManager.score+ " en attrapant "+catched+" oeufs. "+miss+" oeufs n'ont jamais atteint votre panier !", {
             closeOnEsc: false,
             closeOnClickOutside: false
         });
@@ -95,8 +106,6 @@ function loop() {
     } else {
         requestAnimationFrame(loop);
     }
-
-    
 
     renderer.render(stage);
 }

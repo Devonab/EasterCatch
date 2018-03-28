@@ -13,20 +13,21 @@ class Player {
         stage.addChild(this.sprite);
     }
 
-    update() {
+    
 
+    update() {
+        
         let left = keyboard(37),
             right = keyboard(39)
 
         this.sprite.position.x += this.vx;
-        this.sprite.position.y += this.vy;  
         
 
         contain(this.sprite, {x: 0, width: w});
+        
 
         left.press = () => {
-            this.vx = -5;
-            this.vy = 0;
+            this.vx = -5 * this.speed;
         };
         
         left.release = () => {
@@ -36,8 +37,7 @@ class Player {
         };
     
         right.press = () => {
-            this.vx = 5;
-            this.vy = 0;
+            this.vx = 5 * this.speed;
         };
         right.release = () => {
             if (!left.isDown && this.vy === 0 ) {
