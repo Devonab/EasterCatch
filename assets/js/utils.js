@@ -56,7 +56,7 @@ function hitTestRectangle(r1, r2) {
 
     if (Math.abs(vx) < combinedHalfWidths) {
 
-        if (Math.abs(vy) < combinedHalfHeights) {
+        if (Math.abs(vy) + 100 < combinedHalfHeights) {
 
         hit = true;
         } else {
