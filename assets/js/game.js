@@ -69,7 +69,8 @@ loader
   .load(init);
 
 
-function init() {
+function init() 
+{
     renderer.backgroundColor = 0xb3e0e6;
     player = new Player();
     levelManager = new LevelManager();
@@ -77,16 +78,17 @@ function init() {
     timer = new GameTimer();
     renderer.render(stage);
 
-    setInterval( () => {
-        egg = new Egg(randomInt(48, renderer.width - 48), randomInt(-450, -100));
-    }, 1000);
-
     
-   loop();
+    loop();
 
 }
 
-function loop() {
+let spawnInterval = setInterval( () => {
+    egg = new Egg(randomInt(48, renderer.width - 48), randomInt(-450, -100));
+}, 500);
+
+function loop() 
+{
     player.update();
     levelManager.update();
 
