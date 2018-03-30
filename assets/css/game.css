@@ -364,3 +364,14 @@ h1 img {
   height: 183px;
   background: url(../img/grass.png) no-repeat 0 20px;
 }
+
+@media all and (max-width: 1280px) {
+  h1 {
+    max-width: 400px;
+    height: 132px;
+  }
+
+  .grass {
+    background-position-y: 65px;
+  }
+}

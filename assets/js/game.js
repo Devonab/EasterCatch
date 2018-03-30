@@ -11,9 +11,14 @@ let canvas = document.getElementById('game'),
     TextStyle = PIXI.TextStyle,
     Utils = PIXI.utils,
     Sprite = PIXI.Sprite,
+    canvasHeight = window.innerHeight - 200,
     count = 120,
+    secondWave = false,
+    thirdWave = false,
     level = 1,
     egg;
+
+    log(canvasHeight);
 
     const music = new Howl({
         src: ['assets/audio/the_builder.mp3', 'assets/audio/the_builder.ogg'],
@@ -31,7 +36,7 @@ Utils.sayHello('Made by C. Concept ✋ (cconcept.lu)');
 
 let app = new Application(
     800,
-    600,
+    canvasHeight,
     {view: document.getElementById('game-canvas')}
 );
 
@@ -40,7 +45,7 @@ let app = new Application(
 let renderer = app.renderer,
     stage = new PIXI.Container(),
     w = app.screen.width,
-    h = app.screen.height, 
+    h = app.screen.height,
     timer,
     scoreManager,
     levelManager,
@@ -48,8 +53,11 @@ let renderer = app.renderer,
     player,
 
     // Variables pour gérer la difficultée
-    losingWhenFall = 10,
-    winWhenCatch = 20;
+    losingWhenFall = 20,
+    winWhenCatch = 15;
+    wave1Tick = 1000,
+    wave2Tick = 1000,
+    wave3Tick = 500;
 
 loader
   .add("bunny","assets/img/bunny.png")
@@ -69,8 +77,7 @@ loader
   .load(init);
 
 
-function init() 
-{
+function init() {
     renderer.backgroundColor = 0xb3e0e6;
     player = new Player();
     levelManager = new LevelManager();
@@ -78,17 +85,47 @@ function init()
     timer = new GameTimer();
     renderer.render(stage);
 
-    
-    loop();
+    let wave1 = setInterval( () => {
+        egg = new Egg(randomInt(48, renderer.width - 48), randomInt(-450, -100));
+    }, wave1Tick);
+
+
+   loop();
 
 }
 
-let spawnInterval = setInterval( () => {
-    egg = new Egg(randomInt(48, renderer.width - 48), randomInt(-450, -100));
-}, 500);
+let checkForWave2 = setInterval(function() {
 
-function loop() 
+  if (secondWave == true) 
+  {
+    wave2();
+    clearInterval(checkForWave2);
+  }
+}, 1000);
+
+function wave2() 
 {
+    setInterval( () => {
+        egg = new Egg(randomInt(48, renderer.width - 48), randomInt(-450, -100));
+    }, wave2Tick);
+}
+
+let checkForWave3 = setInterval(function() {
+
+  if (thirdWave == true) {
+    wave3();
+    clearInterval(checkForWave3);
+  }
+}, 1000);
+
+function wave3() {
+    setInterval( () => {
+        egg = new Egg(randomInt(48, renderer.width - 48), randomInt(-450, -100));
+    }, wave3Tick);
+  }
+
+
+function loop() {
     player.update();
     levelManager.update();
 
@@ -99,7 +136,10 @@ function loop()
 
     scoreManager.update(score);
 
-    if(timer.count < 0 ) {
+    if(timer.count < 0 || scoreManager.score < 0) {
+      if(scoreManager.score < 0) { 
+        scoreManager.score = 0;
+      }
         swal("C'est fini !", "Vous avez un score de "+ scoreManager.score+ " en attrapant "+catched+" oeufs. "+miss+" oeufs n'ont jamais atteint votre panier !", {
             closeOnEsc: false,
             closeOnClickOutside: false

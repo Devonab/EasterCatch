@@ -10,7 +10,7 @@ let pop = new Howl({
     volume: 0.7
 });
 
-class Egg 
+class Egg
 {
 
     static get list() { return _list; }
@@ -19,7 +19,7 @@ class Egg
     constructor(x, y, level)
     {
         let randomEnnemyName = "assets/img/egg-"+randomInt(1,11)+".png";
-        
+
 
         this.sprite = new Sprite(resources[randomEnnemyName].texture);
         this.sprite.anchor.set(0.5);
@@ -36,8 +36,8 @@ class Egg
 
     }
 
-   
-   
+
+
     update()
     {
         this.sprite.position.y += 1 * this.speed;
@@ -48,8 +48,8 @@ class Egg
             this.sprite.destroy();
             Egg.list.splice(Egg.list.indexOf(this), 1);
             miss++;
-            return scoreManager.update(10);
-               
+            return scoreManager.update(losingWhenFall);
+
         }
 
         if(hitTestRectangle(player.sprite,this.sprite)) {
@@ -62,11 +62,11 @@ class Egg
                 catched++;
                 pop.play();
                 return scoreManager.update(winWhenCatch);;
-            }            
-            
+            }
+
         }
 
-        
+
 
 
     }
