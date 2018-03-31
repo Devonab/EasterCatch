@@ -24,7 +24,13 @@ class Egg
         this.sprite = new Sprite(resources[randomEnnemyName].texture);
         this.sprite.anchor.set(0.5);
         this.sprite.position.set(x , y);
-        this.speed = 1 * levelManager.level;
+        
+        if(levelManager.level >= 7) {
+            this.speed = (1 * levelManager.level) - 1.5;
+        } else {
+            this.speed = 1 * levelManager.level;    
+        }
+
         this.vy = 0;
 
         initialHeight = this.sprite.height;
