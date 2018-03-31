@@ -22,14 +22,29 @@ class ScoreManager {
 
     update(newScore)
     {
+
         if(newScore == losingWhenFall ) {
-            this.score = this.score-newScore;
+
+            if(levelManager.level >= 10) {
+                this.score = (this.score-newScore)+5;
+            }else {
+                this.score = this.score-newScore;
+                
+            }
             this.text.text = 'Score : '+this.score;
+            
         }
 
         if(newScore == winWhenCatch ) {
-            this.score = this.score+newScore;
-            this.text.text = 'Score : '+this.score;
+
+            if(levelManager.level >= 10 ) {
+             this.score = this.score+(newScore+5);
+            } else {
+             this.score = this.score+newScore;
+            }
+             this.text.text = 'Score : '+this.score;
+
+            
         }
 
         
